@@ -103,7 +103,7 @@ export function ConnectionForm({ onSuccess, onError }: Props) {
   async function handleConnect() {
     setLoading('connect')
     try {
-      // Se o túnel acabou de ser aberto, aguarde 300ms para garantir que o forwarding está pronto
+      // Delay para garantir forwarding do túnel
       if (state.tunnel?.active && state.tunnel?.local_port) {
         await new Promise(res => setTimeout(res, 300))
       }

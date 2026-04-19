@@ -138,11 +138,19 @@ export function TableSelector({ onConfirm, loading = false }: Props) {
         </div>
 
         <button
-          className="w-full py-2.5 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+          className="w-full py-2.5 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1 flex items-center justify-center gap-2 relative"
           disabled={state.selected.length === 0 || loading}
           onClick={onConfirm}
         >
-          {loading ? 'Analisando...' : `Analisar${state.selected.length > 0 ? ` (${state.selected.length})` : ''}`}
+          {loading ? (
+            <>
+              <span className="inline-block w-4 h-4 border-2 border-indigo-200 border-t-indigo-500 rounded-full animate-spin mr-2" />
+              Analisando...
+              <span className="absolute left-0 bottom-0 w-full h-1.5 bg-[#2e3148] overflow-hidden rounded-b-md">
+                <span className="block h-full bg-indigo-500 rounded-b-md animate-[progress_1.5s_ease-in-out_infinite]" style={{ width: '40%' }} />
+              </span>
+            </>
+          ) : `Analisar${state.selected.length > 0 ? ` (${state.selected.length})` : ''}`}
         </button>
       </div>
     </div>

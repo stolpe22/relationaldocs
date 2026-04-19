@@ -49,8 +49,9 @@ export function GeneratePanel({ onError, onSuccess }: Props) {
 
   if (!job) return null
 
+  // Ajusta largura para igualar à análise (max-w-5xl)
   return (
-    <div className="w-full max-w-md rounded-xl bg-[#1a1d27] border border-[#2e3148] p-6 shadow-xl">
+    <div className="w-full max-w-5xl rounded-xl bg-[#1a1d27] border border-[#2e3148] p-6 shadow-xl">
       <h2 className="text-lg font-semibold text-slate-100 mb-4">Geração de Documentação</h2>
 
       <div className="flex items-center gap-2 mb-4">

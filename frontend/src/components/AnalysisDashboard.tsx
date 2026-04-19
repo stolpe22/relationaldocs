@@ -34,14 +34,13 @@ export function AnalysisDashboard({ loading, onGenerate }: Props) {
           <h2 className="text-lg font-semibold text-slate-100">Análise — {state.selectedSchema}</h2>
           <p className="text-xs text-slate-500 mt-0.5">{state.selected.length} tabela(s) selecionada(s)</p>
         </div>
-        <button
-          className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={onGenerate}
-          disabled={loading || !a}
-        >
-          {loading ? <Spinner /> : 'Gerar Documentação'}
-        </button>
       </div>
+
+      {loading && (
+        <div className="w-full h-2 rounded-full bg-[#2e3148] overflow-hidden mb-6">
+          <div className="h-full bg-indigo-500 rounded-full animate-[progress_1.5s_ease-in-out_infinite]" style={{ width: '40%' }} />
+        </div>
+      )}
 
       {!a ? (
         <div className="flex items-center justify-center py-12 text-slate-500 text-sm">
@@ -139,6 +138,17 @@ export function AnalysisDashboard({ loading, onGenerate }: Props) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Botão Gerar Documentação no final */}
+          <div className="flex justify-end mt-8">
+            <button
+              className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={onGenerate}
+              disabled={loading || !a}
+            >
+              {loading ? <Spinner /> : 'Gerar Documentação'}
+            </button>
           </div>
         </>
       )}
