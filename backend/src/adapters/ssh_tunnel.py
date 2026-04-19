@@ -8,6 +8,7 @@ from core.exceptions import TunnelError
 from core.interfaces.tunnel_manager import TunnelManager
 
 
+
 class SSHTunnel(TunnelManager):
     def __init__(
         self,
@@ -43,6 +44,7 @@ class SSHTunnel(TunnelManager):
             )
             client.get_transport().set_keepalive(30)
 
+            # Local forwarding (único modo)
             srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             srv.bind(("127.0.0.1", 0))

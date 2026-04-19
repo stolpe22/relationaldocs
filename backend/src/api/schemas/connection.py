@@ -37,3 +37,4 @@ class TunnelStatusResponse(BaseModel):
 
     active: bool
     local_port: int | None
+    remote_port: int | None

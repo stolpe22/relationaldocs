@@ -69,7 +69,7 @@ async def open_tunnel(body: TunnelRequest) -> TunnelStatusResponse:
     try:
         tunnel.open()
         app_state.tunnel = tunnel
-        return TunnelStatusResponse(active=True, local_port=tunnel.local_bind_port)
+        return TunnelStatusResponse(active=True, local_port=tunnel.local_bind_port, remote_port=tunnel._remote_port)
     except TunnelError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -77,13 +77,15 @@ async def open_tunnel(body: TunnelRequest) -> TunnelStatusResponse:
 @router.post("/tunnels/close", summary="Fecha túnel SSH", response_model=TunnelStatusResponse)
 async def close_tunnel() -> TunnelStatusResponse:
     if app_state.tunnel:
+        remote_port = getattr(app_state.tunnel, '_remote_port', None)
         app_state.tunnel.close()
         app_state.tunnel = None
-    return TunnelStatusResponse(active=False, local_port=None)
+        return TunnelStatusResponse(active=False, local_port=None, remote_port=remote_port)
+    return TunnelStatusResponse(active=False, local_port=None, remote_port=None)
 
 
 @router.get("/tunnels/status", summary="Estado do túnel SSH", response_model=TunnelStatusResponse)
 async def tunnel_status() -> TunnelStatusResponse:
     if app_state.tunnel and app_state.tunnel.is_active:
-        return TunnelStatusResponse(active=True, local_port=app_state.tunnel.local_bind_port)
-    return TunnelStatusResponse(active=False, local_port=None)
+        return TunnelStatusResponse(active=True, local_port=app_state.tunnel.local_bind_port, remote_port=app_state.tunnel._remote_port)
+    return TunnelStatusResponse(active=False, local_port=None, remote_port=None)

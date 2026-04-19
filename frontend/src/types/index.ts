@@ -18,10 +18,12 @@ export interface TunnelConfig {
   remote_host: string
   remote_port: number
 }
+}
 
 export interface TunnelStatus {
   active: boolean
   local_port: number | null
+  remote_port: number | null
 }
 
 export interface TablesResponse {
