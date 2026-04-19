@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "relationals-doc"
+version = "0.1.0"
+description = "Gerador de documentação automática de bancos relacionais em formato Obsidian"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "oracledb>=2.2.0",
+    "paramiko>=3.4.0",
+    "sshtunnel>=0.4.0",
+    "pydantic>=2.7.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-mock>=3.14.0",
+    "httpx>=0.27.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing -p no:warnings"
+markers = ["integration: testes que requerem banco Oracle real (excluídos por padrão)"]
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "C4", "PIE", "RET", "SIM"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+mypy_path = "src"

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest*)",
+      "Bash(pytest*)",
+      "Bash(ruff check*)",
+      "Bash(ruff format*)",
+      "Bash(mypy*)",
+      "Bash(pip install*)",
+      "Bash(pip list*)",
+      "Bash(uvicorn*)",
+      "Bash(mkdir*)",
+      "Bash(cp .env.example .env)",
+      "Bash(cat*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(grep*)",
+      "Bash(find*)",
+      "Bash(tree*)",
+      "Bash(source .venv/bin/activate*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/*secret*)",
+      "Read(**/*credential*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf .)",
+      "Bash(rm -rf src)",
+      "Bash(rm -rf tests)",
+      "Bash(rm -rf .git)",
+      "Bash(rm -rf .claude)",
+      "Bash(*DROP TABLE*)",
+      "Bash(*DROP DATABASE*)",
+      "Bash(*TRUNCATE*)",
+      "Bash(*DELETE FROM*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(curl*|sh)",
+      "Bash(wget*|sh)"
+    ]
+  },
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src",
+    "RUFF_CACHE_DIR": ".ruff_cache"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ruff check --fix --quiet $(echo $CLAUDE_FILE_PATHS | tr ',' ' ') 2>/dev/null || true",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
